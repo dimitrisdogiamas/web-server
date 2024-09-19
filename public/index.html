@@ -97,6 +97,36 @@
         <button>Search</button>
     </header>
     <main></main>
+    <script>
+        let tickerInput=document.getElementById('ticker')
+        let sendBtn=document.querySelector('button')
+        let mainContainer = document 
+        .querySelector('main')
+        async function fetchStockData() {
+            let stock_ticker= tickerInput.value
+            if(!stock_ticker){return}
+            try{
+                const backend_url='/api'
+                const options={
+                    method:'POST',
+                    headers:{
+                        'content-type':'application/json'
+                    },
+                    body:JSON.stringify({
+                        stock_ticker})
+
+                }
+                const res=fetch(backend_url,options )
+                console.log(res.status)
+                const {prices} = await res.json()
+                mainContainer.innerText= prices.join('\n') 
+            }catch(err){
+                console.log(err.message)
+            }
+        }
+
+        sendBtn.addEventListener('click',fetchStockData)
+    </script>
 </body>
 
 </html>
